@@ -32,8 +32,8 @@ def get_amsterdam_info(url):
         resp = requests.get(url, timeout=30, headers=HEADERS)
         text = resp.text
 
-        # City check — embedded in __NUXT__ state as "Amsterdam"
-        if "Amsterdam" not in text:
+        # City check — match the structured city field, not just any occurrence
+        if not re.search(r'"(?:city|addressLocality)"\s*:\s*"Amsterdam"', text):
             return None
 
         # Extract total rent
